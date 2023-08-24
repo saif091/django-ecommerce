@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-name padding-y-sm">
+    <div class="container">
+
+    <header class="section-heading">
+      {% if 'search' in request.path %}
+        <h3 class="section-title">Search result</h3>
+      {% else %}
+        <h3 class="section-title">Our Store</h3>
+      {% endif %}
+      <span class="mr-md-auto"><b>{{ product_count }}</b> Items found </span>
+    </header><!-- sect-heading -->
+
+
+    <div class="row">
+      {% if products %}
+      {% for product in products %}
+      <div class="col-md-3">
+        <div class="card card-product-grid">
+          <a href="{{ product.get_url }}" class="img-wrap"> <img src="{{ product.images.url }}"> </a>
+          <figcaption class="info-wrap">
+            <a href="{{ product.get_url }}" class="title">{{product.product_name}}</a>
+            <div class="price mt-1">{{ product.price}}</div> <!-- price-wrap.// -->
+          </figcaption>
+          <button class="btn btn-lg btn-success" type="submit">Add to Cart</button>
+        </div>
+      </div> <!-- col.// -->
+      {% endfor %}
+      {% else %}
+      <div>
+        <h2>No Result Found</h2>
+    </div>
+    {% endif %} <!-- row.// -->
+
+    </div><!-- container // -->
+    </section>
+    <div class="d-flex justify-content-center pagination p1">
+      {% if products.has_other_pages %}
+        <ul>
+          {% if products.has_previous %}
+          <a class="is-active" href="?page={{products.previous_page_number }}"><li><</li></a>
+          {% else %}
+
+          {% endif %}
+          {% for i in products.paginator.page_range %}
+            {% if products.number == i  %}
+              <a class="is-active" href="#"><li>{{i}}</li></a>
+            {% else %}
+              <a href="?page={{i}}"><li>{{i}}</li></a>
+            {% endif  %}
+          {% endfor %}
+          {% if products.has_next %}
+          <a class="is-active" href="?page={{products.next_page_number }}"><li>></li></a>
+          {% else %}
+
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+<!--================ FOOTER ======  =================-- //container -->
+
+{% endblock %}

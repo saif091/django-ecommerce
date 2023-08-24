@@ -1,0 +1,79 @@
+<!--nav bar start--->
+<nav class="navbar navbar-expand-lg navbar-light bg-success tr">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="{% url 'home' %}">AyurHind</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'store' %}">Store</a>
+        </li>
+        <li class="nav-item">
+          <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="{% url 'store' %}">All products</a></li>
+              {% for category in links %}
+              <li><a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% if user.id is None %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}" tabindex="-1">Log In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}" tabindex="-1">Sign up</a>
+          </li>
+        {% else %}
+        <div class="dropdown">
+          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Welcome {{user.first_name}}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Sign Out</a></li>
+          </ul>
+        </div>
+        {% endif %}
+      </ul>
+    </div>
+    <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
+      <div class="icon icon-sm rounded-circle border bg-light"><i class="fa fa-shopping-cart"></i></div>
+      <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+    </a>
+  </div>
+</nav>
+  <!--second header-->
+  <div class="container test">
+  <div class="row justify-content-center mt-0">
+                        <div class="col-12 col-md-10 col-lg-8">
+                            <form action="{% url 'search' %}" class="card search card-sm" method="GET">
+                                <div class="card-body row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <i class="fas fa-search h4 text-body"></i>
+                                    </div>
+                                    <!--end of col-->
+                                    <div class="col">
+                                        <input class="form-control form-control-lg form-control-borderless" type="text" placeholder="Search" name="keyword">
+                                    </div>
+                                    <!--end of col-->
+                                    <div class="col-auto">
+                                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                    </div>
+                                    <!--end of col-->
+                                </div>
+                            </form>
+                        </div>
+                        <!--end of col-->
+                    </div>
+</div>
+<!--end header--->
